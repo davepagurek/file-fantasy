@@ -12,6 +12,8 @@ if (args.length === 0) {
   console.log('TODO');
 } else if (args[0] === 'checkout') {
   console.log('TODO');
+} else if (args[0] === 'log') {
+  console.log('TODO');
 } else {
   showHelp();
 }
@@ -24,4 +26,5 @@ function showHelp() {
   console.log('\tff branch');
   console.log('\tff merge');
   console.log('\tff checkout');
+  console.log('\tff log');
 }
