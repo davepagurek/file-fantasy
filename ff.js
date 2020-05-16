@@ -3,26 +3,28 @@
 const [,, ...args] = process.argv;
 const dir =  process.cwd();
 const fs = require('fs');
+const sf = require('./suffixes');
 const SEPERATOR = "_";
 
 if (args.length === 0) {
   showHelp();
 } else if (args[0] === 'commit') {
+  let filelist;
+  //if we have no file specified
+  if (args.length == 1) {
+    filelist = getTrackedFiles();
+  } else {
+    filelist = args.slice(1, args.length);
+  }
+
   console.log("found files to \'track\':")
-  getTrackedFiles().forEach(filename => {
+  console.log(filelist);
+  filelist.forEach(filename => {
     console.log(filename);
     //copy all files and bump version
     //find highest version
     let fileToCopy = getHighestVersion(filename);
-    let nameNoExt = fileToCopy.split(".")[0];
-    let ext = fileToCopy.split(".")[1];
-    parts = nameNoExt.split(SEPERATOR);
-    let newName = "";
-    if (parts.length > 1) {
-      newName = parts[0] + SEPERATOR + (parseInt(parts[1]) + 1) + "." + ext;
-    } else {
-      newName = parts[0] + SEPERATOR + "1" + "." + ext;
-    }
+    newName = sf.inc(fileToCopy);
 
     //create the doc
     fs.copyFileSync(fileToCopy, newName, (err) => {
@@ -73,7 +75,7 @@ function getTrackedFiles() {
    
     let fileNameNoExtension = file.split(".")[0];
     let possibleVal = fileNameNoExtension.split(SEPERATOR)[0];
-    if(!files.includes(possibleVal)){
+    if(!files.includes(possibleVal) && possibleVal !=''){ //ignore DS_Store
       files.push(possibleVal);
       //console.log(possibleVal + " Added");
     }
