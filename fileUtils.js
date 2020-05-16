@@ -3,6 +3,8 @@ const { settings } = require('./suffixes.js');
 const fs = require('fs');
 const dir =  process.cwd();
 
+const BRANCH_WEIRDNESS_FACTOR = 0.3;
+
 function getTrackedFiles() {
   let files = new Array();
   //console.log('Current directory: ' + dir);
@@ -40,4 +42,26 @@ function getHighestVersion(filename) {
   return highestVerFile;
 }
 
-module.exports = { getTrackedFiles, getHighestVersion };
+function getSlightlyDifferentName(inputString){
+  let firstPart = inputString.split('.')[0];
+  let suffix = inputString.split('.')[1];
+
+  let newName = new Array();
+  for(let i=0;i<firstPart.length;i++){
+    if (Math.random() < BRANCH_WEIRDNESS_FACTOR){
+      newName.push(nextChar(firstPart.charAt(i)));
+    } else {
+      newName.push(firstPart.charAt(i));
+    }
+  }
+  return newName.join('') + '.' + suffix;
+}
+
+function nextChar(c) {
+  if (c === 'z' || c === '.' || c === '_') {
+    return c;
+  }
+  return String.fromCharCode(c.charCodeAt(0) + 1);
+}
+
+module.exports = { getTrackedFiles, getHighestVersion, getSlightlyDifferentName };
