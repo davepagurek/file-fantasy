@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/davepagurek/file-fantasy#readme",
   "dependencies": {
+    "mermaid.cli": "^0.5.1",
     "mocha": "^7.1.2"
   }
 }
