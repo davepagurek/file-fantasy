@@ -6,6 +6,9 @@ const fs = require('fs');
 const sf = require('./suffixes');
 const SEPERATOR = "_";
 
+const showLog = require('./showLog');
+const { getTrackedFiles, getHighestVersion } = require('./fileUtils');
+
 if (args.length === 0) {
   showHelp();
 } else if (args[0] === 'commit') {
@@ -41,46 +44,9 @@ if (args.length === 0) {
 } else if (args[0] === 'checkout') {
   console.log('TODO');
 } else if (args[0] === 'log') {
-  console.log('TODO');
+  showLog();
 } else {
   showHelp();
-}
-
-function getHighestVersion(filename) {
-  let highestVerFile = "";
-  let oldSuffix = "";
-  //get all files with the name as a prefix
-  fs.readdirSync(dir).forEach(file => {
-    if (file.startsWith(filename)) {
-      //add it if we don't have one yet 
-      
-      let newSuffix = "";
-      if (file.split(SEPERATOR).length > 1) {
-        newSuffix = file.split(SEPERATOR)[1];
-      }
-      
-      if (newSuffix > oldSuffix || highestVerFile === "") {
-        highestVerFile = file;
-      }
-      
-    }
-  });
-  return highestVerFile;
-}
-
-function getTrackedFiles() {
-  let files = new Array();
-  //console.log('Current directory: ' + dir);
-  fs.readdirSync(dir).forEach(file => {
-   
-    let fileNameNoExtension = file.split(".")[0];
-    let possibleVal = fileNameNoExtension.split(SEPERATOR)[0];
-    if(!files.includes(possibleVal) && possibleVal !=''){ //ignore DS_Store
-      files.push(possibleVal);
-      //console.log(possibleVal + " Added");
-    }
-  });
-  return files;
 }
 
 function showHelp() {
