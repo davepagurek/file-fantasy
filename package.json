@@ -18,5 +18,8 @@
   "bin": {
     "ff": "./ff.js"
   },
-  "homepage": "https://github.com/davepagurek/file-fantasy#readme"
+  "homepage": "https://github.com/davepagurek/file-fantasy#readme",
+  "dependencies": {
+    "mocha": "^7.1.2"
+  }
 }
