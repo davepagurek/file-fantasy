@@ -3,6 +3,7 @@
 const [,, ...args] = process.argv;
 const dir =  process.cwd();
 const fs = require('fs');
+const sf = require('./suffixes');
 const SEPERATOR = "_";
 
 if (args.length === 0) {
@@ -14,15 +15,7 @@ if (args.length === 0) {
     //copy all files and bump version
     //find highest version
     let fileToCopy = getHighestVersion(filename);
-    let nameNoExt = fileToCopy.split(".")[0];
-    let ext = fileToCopy.split(".")[1];
-    parts = nameNoExt.split(SEPERATOR);
-    let newName = "";
-    if (parts.length > 1) {
-      newName = parts[0] + SEPERATOR + (parseInt(parts[1]) + 1) + "." + ext;
-    } else {
-      newName = parts[0] + SEPERATOR + "1" + "." + ext;
-    }
+    newName = sf.inc(fileToCopy);
 
     //create the doc
     fs.copyFileSync(fileToCopy, newName, (err) => {
