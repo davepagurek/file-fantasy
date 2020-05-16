@@ -5,6 +5,7 @@ const [,, ...args] = process.argv;
 const showLog = require('./showLog');
 const commitFiles = require('./commitFiles');
 const branchFiles = require('./branchFiles');
+const checkThisOut = require('./checkThisOut');
 
 if (args.length === 0) {
   showHelp();
@@ -15,7 +16,7 @@ if (args.length === 0) {
 } else if (args[0] === 'merge') {
   console.log('TODO');
 } else if (args[0] === 'checkout') {
-  console.log('TODO');
+  checkThisOut();
 } else if (args[0] === 'log') {
   showLog();
 } else {
