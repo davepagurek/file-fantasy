@@ -85,7 +85,7 @@ function showLog() {
           // Parent came before child
           fileStats[branchParent].birthtime < fileStats[child].birthtime &&
           // Child has no parent of its own
-          !fileIds[dec(branchParent)]) {
+          !fileIds[dec(child)]) {
         graphEdges.push([fileIds[branchParent], fileIds[child], 'branch']);
       }
 
