@@ -21,7 +21,7 @@ function branchFiles(args) {
     fs.copyFileSync(fileToCopy, kindaNewName, (err) => {
       if (err) throw err;
     });
-    console.log(fileToCopy + " was copied to " + kindaNewName + '\n');
+    console.log(fileToCopy + " was copied to " + kindaNewName + ' 🤭🔀📄\n');
   });
 }
 
