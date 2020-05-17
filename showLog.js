@@ -121,9 +121,25 @@ function showLog() {
 
   const tmpFile = '____ff_log.mmd';
   const outFile = '_FF_LOG.pdf';
+  const cssFile = '__FF_LOG.css';
+
+  const css = `
+    svg {
+      background-color: #F00;
+    }
+    svg * {
+      font-family: 'Comic Sans MS' !important;
+    }
+    .node rect {
+      fill: #0F0 !important;
+    }
+  `;
+
+  fs.writeFileSync(cssFile, css);
   fs.writeFileSync(tmpFile, graphTxt);
-  execSync(`(cd ${__dirname}; npx mmdc -i "${dir}/${tmpFile}" -o "${dir}/${outFile}")`);
+  execSync(`(cd ${__dirname}; npx mmdc -i "${dir}/${tmpFile}" -o "${dir}/${outFile}" -C "${dir}/${cssFile}")`);
   fs.unlinkSync(tmpFile);
+  fs.unlinkSync(cssFile);
 
   console.log(`Your version history is in ${outFile}.`);
 }
