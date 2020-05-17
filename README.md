@@ -1,14 +1,10 @@
 # file-fantasy
-Version control for HUMANS.
+Version control for HUMANS. Make sense of all the copies of copies of files on your desktop!
 
 ## Installation
 
 ```
-# set up dependencies
-npm install
-
-# let you use the ff utility
-npm link
+npm install -g @davepagurek/file-fantasy
 ```
 
 ## Usage
@@ -51,3 +47,13 @@ Create a `log` of all the complex version history so you can understand where al
     <th><em>Woke</em></th>
   </tr>
 </table>
+
+## Dev setup
+
+```
+# set up dependencies
+npm install
+
+# let you use the ff utility
+npm link
+```
