@@ -1,16 +1,16 @@
 const settings = {
   separator: "_",
   suffixes: [
-    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
-    //"Copy",
-    //"Copy(2)",
-    //"Copy(3)",
-    //"Final",
-    //"Final2",
-    //"REALfinal",
-    //"asdf",
-    //"hjkl",
-    //"pleasebefinal"
+    //"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+    "Copy",
+    "Copy(2)",
+    "Copy(3)",
+    "Final",
+    "Final2",
+    "REALfinal",
+    "asdf",
+    "hjkl",
+    "pleasebefinal"
   ]
 };
 
@@ -18,6 +18,25 @@ function parts(filename) {
   // TODO handle dots in the name
   const [name, ext] = filename.split('.');
   return [name.split(settings.separator), `.${ext}`];
+}
+
+function gt(suffixA, suffixB) {
+  const numsA = suffixA.map(str => settings.suffixes.indexOf(str));
+  const numsB = suffixB.map(str => settings.suffixes.indexOf(str));
+  const maxLen = Math.max(suffixA.length, suffixB.length);
+
+  // Left pad with 0s
+  while (numsA.length < maxLen) numsA.unshift(0);
+  while (numsB.length < maxLen) numsB.unshift(0);
+
+  for (let place = 0; place < maxLen; place++) {
+    if (numsA[place] > numsB[place]) {
+      return true;
+    } else if (numsA[place] < numsB[place]) {
+      return false;
+    }
+  }
+  return false;
 }
 
 function inc(filename) {
@@ -79,4 +98,4 @@ function dec(filename) {
   }
 }
 
-module.exports = { settings, parts, dec, inc };
+module.exports = { settings, parts, dec, inc, gt };
