@@ -24,7 +24,7 @@ function commitFiles(args){
       fs.copyFileSync(fileToCopy, newName, (err) => {
       if (err) throw err;
       });
-      console.log(fileToCopy + " was copied to " + newName + '\n');
+      console.log(fileToCopy + " was copied to " + newName + ' 😤✅💯\n');
   });
 }
 

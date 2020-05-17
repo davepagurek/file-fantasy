@@ -28,9 +28,9 @@ function showHelp() {
   console.log('FileFantasy - Version control for HUMANS');
   console.log('');
   console.log('Commands:');
-  console.log('\tff commit [file1, file2...]: Make a backup of whole directory or just a few files');
-  console.log('\tff branch [file1, file2...]: Make a kinda similar version of a file to... mess around on');
-  console.log('\tff merge file1 file2: Smush file1 into file2. Leaves... some... evidence.');
-  console.log('\tff checkout: It wouldn\'t be a git killer without a checkout command.');
-  console.log('\tff log: Take a good long look at what you\'ve done (in PDF format).');
+  console.log('\tff commit [file1, file2...]: Make a 💾 backup of whole directory or just a few files');
+  console.log('\tff branch [file1, file2...]: Make a 📑 kinda similar version of a file to mess around on');
+  console.log('\tff merge file1 file2: Smush file1 into file2. Leaves... some... evidence 😳');
+  console.log('\tff checkout: It wouldn\'t be a git killer without a 🎉 checkout 🎉 command.');
+  console.log('\tff log: Take a good long look 🔍 at what you\'ve done (in PDF 📝 format).');
 }

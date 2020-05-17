@@ -4,7 +4,7 @@ const sf = require('./suffixes');
 function mergeFiles(args) {
 	//we need 2 arguments
 	if (args.length != 3) {
-		console.log("Error: You gotta write it like so:\nff merge file1.ext file2.ext");
+		console.log("🚨 Error 🚨: You gotta write it like so:\nff merge file1.ext file2.ext");
 		return;
 	}
 	
