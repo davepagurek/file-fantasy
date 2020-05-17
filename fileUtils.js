@@ -10,14 +10,20 @@ function getTrackedFiles() {
   //console.log('Current directory: ' + dir);
   fs.readdirSync(dir).forEach(file => {
    
-    let fileNameNoExtension = file.split(".")[0];
-    let possibleVal = fileNameNoExtension.split(settings.separator)[0];
+    const [[possibleVal, ...suffix], ext, mergedFrom] = parts(file);
     if(!files.includes(possibleVal) && possibleVal !=''){ //ignore DS_Store
       files.push(possibleVal);
       //console.log(possibleVal + " Added");
     }
   });
   return files;
+}
+
+function findFileWithMerge(file) {
+  const [[possibleVal, ...suffix], ext, mergedFrom] = parts(file);
+  let mergedVersion = null;
+  return fs.readdirSync(dir).find(file =>
+    file.startsWith(`${possibleVal}_${suffix.join(settings.separator)}-`));
 }
 
 function getHighestVersion(filename) {
@@ -60,4 +66,4 @@ function nextChar(c) {
   return String.fromCharCode(c.charCodeAt(0) + 1);
 }
 
-module.exports = { getTrackedFiles, getHighestVersion, getSlightlyDifferentName };
+module.exports = { getTrackedFiles, getHighestVersion, getSlightlyDifferentName, findFileWithMerge };

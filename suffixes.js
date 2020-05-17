@@ -1,5 +1,6 @@
 const settings = {
   separator: "_",
+  mergeSeparator: "-",
   suffixes: [
     //"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
     "Copy",
@@ -16,8 +17,15 @@ const settings = {
 
 function parts(filename) {
   // TODO handle dots in the name
-  const [name, ext] = filename.split('.');
-  return [name.split(settings.separator), `.${ext}`];
+  const [fullname, ext] = filename.split('.');
+  let name = fullname;
+  let mergedFrom = null;
+  const mergeIdx = fullname.indexOf(settings.mergeSeparator);
+  if (mergeIdx >= 0) {
+    name = fullname.slice(0, mergeIdx);
+    mergedFrom = fullname.slice(mergeIdx+1);
+  }
+  return [name.split(settings.separator), `.${ext}`, mergedFrom];
 }
 
 function gt(suffixA, suffixB) {
