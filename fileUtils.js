@@ -1,4 +1,4 @@
-const { settings } = require('./suffixes.js');
+const { parts, gt, settings } = require('./suffixes.js');
 
 const fs = require('fs');
 const dir =  process.cwd();
@@ -26,17 +26,13 @@ function getHighestVersion(filename) {
   //get all files with the name as a prefix
   fs.readdirSync(dir).forEach(file => {
     if (file.startsWith(filename)) {
+      const [[base, ...suffix], ext] = parts(file);
+
       //add it if we don't have one yet 
-      
-      let newSuffix = "";
-      if (file.split(settings.separator).length > 1) {
-        newSuffix = file.split(settings.separator)[1];
-      }
-      
-      if (newSuffix > oldSuffix || highestVerFile === "") {
+      if (highestVerFile === "" || gt(suffix, oldSuffix)) {
         highestVerFile = file;
+        oldSuffix = suffix;
       }
-      
     }
   });
   return highestVerFile;

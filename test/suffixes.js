@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const { settings, parts, dec, inc } = require('../suffixes');
+const { settings, parts, dec, inc, gt } = require('../suffixes');
 
 settings.suffixes = "0123456789".split('');
 
@@ -25,5 +25,23 @@ describe('dec', function() {
   });
   it('stops at 0', function() {
     assert.equal(dec('test_1.txt'), 'test.txt');
+  });
+});
+
+describe('gt', function() {
+  it('works for single digits', function() {
+    assert.ok(gt(['3'], ['2']));
+    assert.ok(!gt(['2'], ['3']));
+    assert.ok(!gt(['2'], ['2']));
+  });
+  it('works with zeros', function() {
+    assert.ok(gt(['2'], []));
+    assert.ok(!gt([], ['2']));
+  });
+  it('handles different lengths', function() {
+    assert.ok(gt(['2','1'], ['9']));
+    assert.ok(gt(['2'], []));
+    assert.ok(!gt(['9'], ['2','1']));
+    assert.ok(!gt([], ['2']));
   });
 });
