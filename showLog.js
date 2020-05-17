@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-const { getTrackedFiles, getHighestVersion } = require('./fileUtils');
+const { getTrackedFiles, getHighestVersion, findFileWithMerge } = require('./fileUtils');
 const { parts, inc, dec } = require('./suffixes');
 
 const dir =  process.cwd();
@@ -42,6 +42,15 @@ function findBranchParent(file, allFiles) {
   return closest;
 }
 
+function getParent(child) {
+  const parent = dec(child);
+  if (fs.existsSync(parent)) {
+    return parent;
+  }
+
+  return findFileWithMerge(parent);
+}
+
 function showLog() {
   const files = new Set(getTrackedFiles());
   const graphEdges = [];
@@ -66,8 +75,8 @@ function showLog() {
       fileStats[child] = fs.statSync(child);
       nextId++;
 
-      const parent = dec(child);
-      if (fs.existsSync(parent)) {
+      const parent = getParent(child);
+      if (parent) {
         graphEdges.push([`id${nextId}`, `id${nextId-1}`, 'child']);
         child = parent;
       } else {
@@ -76,21 +85,37 @@ function showLog() {
     }
   });
 
-  // Find branches
+  // Find branches and merges
   files.forEach(f => {
     let child = getHighestVersion(f);
     while (true) {
+
+      // Check for branch
       const branchParent = findBranchParent(child, Object.keys(fileIds));
       if (branchParent &&
           // Parent came before child
           fileStats[branchParent].birthtime < fileStats[child].birthtime &&
           // Child has no parent of its own
-          !fileIds[dec(child)]) {
+          !fileIds[getParent(child)]) {
         graphEdges.push([fileIds[branchParent], fileIds[child], 'branch']);
       }
 
-      const parent = dec(child);
-      if (fs.existsSync(parent)) {
+
+      const [[base, ...suffix], ext, mergedFrom] = parts(child);
+
+      // Check for merge
+      if (mergedFrom) {
+        const mergedFromFile =
+          Object.keys(fileIds)
+            .find(name => name.startsWith(`${mergedFrom}.`) || name.startsWith(`${mergedFrom}-`));
+
+        if (mergedFromFile) {
+          graphEdges.push([fileIds[mergedFromFile], fileIds[child], 'merge']);
+        }
+      }
+
+      const parent = getParent(child);
+      if (parent) {
         child = parent;
       } else {
         break;

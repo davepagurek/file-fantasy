@@ -14,6 +14,9 @@ describe('inc', function() {
   it('starts from 0', function() {
     assert.equal(inc('test.txt'), 'test_1.txt');
   });
+  it('ignores merge segments', function() {
+    assert.equal(inc('test_2-something_3.txt'), 'test_3.txt');
+  });
 });
 
 describe('dec', function() {
